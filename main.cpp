@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdlib>
 
+
 const int MAX_PELICULAS = 100;
 
 struct Pelicula {
@@ -62,11 +63,34 @@ void buscarPorTitulo(Pelicula peliculas[], int cantidad, const char* consulta) {
 }
 
 void ordenarPorReproducciones(Pelicula peliculas[], int cantidad) {
-//TODO implementar ordenamiento
+//ordenando de mayor a menor usando insertion sort.
+
+    for(int i = 0; i < cantidad; i++){
+       Pelicula key =  peliculas[i];
+        int j = i - 1;
+        while(j >= 0 && peliculas[j].reproducciones < key.reproducciones){
+            peliculas[j + 1] = peliculas[j];
+            j = j - 1;
+        }
+        peliculas[j + 1] = key;
+    }
+    
 }
 
 void ordenarPorTitulo(Pelicula peliculas[], int cantidad) {
-    //TODO implementar ordenamiento
+    //TODO implementar ordenamiento insertion sort
+     for (int i = 1; i < cantidad; i++) {
+        Pelicula aux = peliculas[i];
+        int j = i - 1;
+
+                        
+        while (j >= 0 && strcmp(peliculas[j].titulo, aux.titulo) > 0) {
+            peliculas[j + 1] = peliculas[j];
+            j--;
+        }
+
+        peliculas[j + 1] = aux;
+    }
 }
 
 void mostrarPeliculas(Pelicula peliculas[], int cantidad) {
@@ -79,7 +103,7 @@ void mostrarPeliculas(Pelicula peliculas[], int cantidad) {
 
 int main() {
     Pelicula peliculas[MAX_PELICULAS];
-    int cantidad = cargarPeliculas("reproducciones_netflix.csv", peliculas);
+    int cantidad = cargarPeliculas("../reproducciones_netflix.csv", peliculas);
 
     if (cantidad == 0) {
         std::cerr << "No se pudieron cargar las películas.\n";
